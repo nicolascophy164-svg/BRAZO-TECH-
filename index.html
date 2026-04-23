@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brazotech Insurance — Register</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+  :root {
+    --red: #D72638;
+    --red-dark: #A01E2A;
+    --red-glow: rgba(215,38,56,0.35);
+    --black: #0A0A0A;
+    --dark: #111111;
+    --card: #181818;
+    --border: #2A2A2A;
+    --white: #F5F5F5;
+    --grey: #777777;
+    --light-grey: #AAAAAA;
+    --success: #22C55E;
+    --success-glow: rgba(34,197,94,0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(215,38,56,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(215,38,56,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: -200px; left: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(215,38,56,0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ---- HEADER ---- */
+  .header {
+    padding: 48px 0 36px;
+    animation: slideDown 0.6s ease both;
+  }
+
+  .brand-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+
+  .brand-icon {
+    width: 48px; height: 48px;
+    background: var(--red);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 0 20px var(--red-glow);
+    flex-shrink: 0;
+  }
+
+  .brand-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.08em;
+    line-height: 1;
+  }
+
+  .brand-name span {
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-top: 3px;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 12vw, 72px);
+    letter-spacing: 0.04em;
+    line-height: 0.95;
+    margin-bottom: 16px;
+  }
+
+  .hero-title .accent { color: var(--red); }
+
+  .hero-sub {
+    color: var(--light-grey);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.6;
+    max-width: 360px;
+  }
+
+  /* ---- PRICING TIERS ---- */
+  .pricing-section {
+    margin-bottom: 36px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .section-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  .tiers {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+
+  .tier {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tier:hover { border-color: var(--red); }
+
+  .tier.active {
+    border-color: var(--red);
+    background: rgba(215,38,56,0.08);
+    box-shadow: 0 0 20px var(--red-glow);
+  }
+
+  .tier.active::before {
+    content: '✓';
+    position: absolute;
+    top: 8px; right: 10px;
+    font-size: 11px;
+    color: var(--red);
+    font-weight: 700;
+  }
+
+  .tier-name {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--grey);
+    margin-bottom: 6px;
+  }
+
+  .tier-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    color: var(--white);
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+
+  .tier-price .pm { font-size: 13px; color: var(--grey); font-family: 'Outfit', sans-serif; }
+
+  .tier-models {
+    font-size: 10px;
+    color: var(--grey);
+    margin-top: 5px;
+    line-height: 1.4;
+  }
+
+  /* ---- FORM ---- */
+  .form-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 24px;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .form-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  .form-sub {
+    color: var(--grey);
+    font-size: 13px;
+    margin-bottom: 26px;
+  }
+
+  .field { margin-bottom: 16px; }
+
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--grey);
+    margin-bottom: 8px;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    background: #1E1E1E;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 15px;
+    color: var(--white);
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+  }
+
+  input::placeholder, textarea::placeholder { color: #444; }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(215,38,56,0.1);
+  }
+
+  select option { background: #1E1E1E; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .field-error {
+    color: #F87171;
+    font-size: 11px;
+    margin-top: 5px;
+    display: none;
+    font-weight: 500;
+  }
+
+  input.error, select.error { border-color: #EF4444; }
+
+  /* Phone category selector */
+  .phone-cats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .phone-cat {
+    background: #1E1E1E;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+  }
+
+  .phone-cat:hover { border-color: var(--red); }
+
+  .phone-cat.selected {
+    border-color: var(--red);
+    background: rgba(215,38,56,0.08);
+  }
+
+  .phone-cat-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 3px;
+  }
+
+  .phone-cat-examples {
+    font-size: 11px;
+    color: var(--grey);
+  }
+
+  .phone-cat-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--red);
+    margin-top: 6px;
+  }
+
+  /* Screen condition */
+  .condition-btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .cond-btn {
+    background: #1E1E1E;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    color: var(--white);
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .cond-btn:hover { border-color: #555; }
+  .cond-btn.good { border-color: var(--success); background: rgba(34,197,94,0.08); color: #86EFAC; }
+  .cond-btn.bad { border-color: #EF4444; background: rgba(239,68,68,0.08); color: #FCA5A5; }
+  .cond-emoji { font-size: 24px; display: block; margin-bottom: 6px; }
+
+  /* Photo upload */
+  .photo-upload {
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .photo-upload:hover { border-color: var(--red); background: rgba(215,38,56,0.04); }
+  .photo-upload.has-photo { border-color: var(--success); border-style: solid; }
+
+  .photo-upload input[type=file] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+  }
+
+  .upload-icon { font-size: 32px; display: block; margin-bottom: 8px; }
+  .upload-text { font-size: 13px; color: var(--grey); }
+  .upload-text strong { color: var(--red); }
+
+  #photoPreview {
+    max-width: 100%;
+    max-height: 120px;
+    border-radius: 8px;
+    margin-top: 10px;
+    display: none;
+  }
+
+  /* Payment method */
+  .pay-btns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .pay-btn {
+    background: #1E1E1E;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    color: var(--white);
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .pay-btn:hover { border-color: var(--red); }
+  .pay-btn.selected { border-color: var(--red); background: rgba(215,38,56,0.08); color: #FCA5A5; }
+  .pay-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 22px 0;
+  }
+
+  /* Terms */
+  .terms-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+
+  .terms-row input[type=checkbox] {
+    width: 18px; height: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    accent-color: var(--red);
+    cursor: pointer;
+    padding: 0; border: none; background: none;
+  }
+
+  .terms-row label {
+    color: var(--grey);
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 0;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+    cursor: pointer;
+  }
+
+  /* Submit */
+  .submit-btn {
+    width: 100%;
+    background: var(--red);
+    border: none;
+    border-radius: 12px;
+    padding: 17px;
+    color: white;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 24px var(--red-glow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.4s;
+  }
+
+  .submit-btn:hover::before { left: 100%; }
+  .submit-btn:hover { background: var(--red-dark); transform: translateY(-2px); box-shadow: 0 8px 32px var(--red-glow); }
+  .submit-btn:active { transform: translateY(0); }
+  .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  /* ---- REJECTED ---- */
+  .rejected-screen {
+    display: none;
+    text-align: center;
+    padding: 48px 28px;
+    background: rgba(239,68,68,0.05);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 20px;
+    animation: popIn 0.5s ease both;
+  }
+
+  .rejected-icon { font-size: 60px; display: block; margin-bottom: 20px; }
+
+  .rejected-screen h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 0.05em;
+    color: #F87171;
+    margin-bottom: 12px;
+  }
+
+  .rejected-screen p { color: var(--grey); font-size: 15px; line-height: 1.7; }
+
+  /* ---- SUCCESS ---- */
+  .success-screen {
+    display: none;
+    animation: popIn 0.5s ease both;
+  }
+
+  .success-banner {
+    background: linear-gradient(135deg, #0F2A1A, #0A1A0F);
+    border: 1px solid rgba(34,197,94,0.3);
+    border-radius: 20px;
+    padding: 36px 28px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 0 40px var(--success-glow);
+  }
+
+  .success-icon-wrap {
+    width: 72px; height: 72px;
+    background: var(--success);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    margin: 0 auto 20px;
+    box-shadow: 0 0 30px var(--success-glow);
+  }
+
+  .success-banner h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 34px;
+    letter-spacing: 0.06em;
+    color: var(--success);
+    margin-bottom: 8px;
+  }
+
+  .success-banner p { color: #86EFAC; font-size: 14px; line-height: 1.6; }
+
+  .member-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 16px;
+  }
+
+  .member-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .member-card-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.08em;
+    color: var(--red);
+  }
+
+  .member-badge {
+    background: rgba(215,38,56,0.15);
+    border: 1px solid rgba(215,38,56,0.3);
+    border-radius: 100px;
+    padding: 4px 12px;
+    font-size: 11px;
+    color: var(--red);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .member-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .member-field-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--grey);
+    margin-bottom: 3px;
+  }
+
+  .member-field-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  .member-field-value.highlight { color: var(--red); font-family: 'Bebas Neue', sans-serif; font-size: 18px; }
+
+  .whatsapp-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    background: #25D366;
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    color: white;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.3);
+  }
+
+  .whatsapp-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+
+  /* Animations */
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* Selected tier highlight on premium row */
+  .selected-tier-display {
+    background: rgba(215,38,56,0.08);
+    border: 1px solid rgba(215,38,56,0.25);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .selected-tier-display.visible { display: flex; }
+  .std-label { font-size: 13px; color: var(--light-grey); }
+  .std-price { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--red); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="brand-row">
+      <div class="brand-icon">🛡️</div>
+      <div class="brand-name">
+        BRAZOTECH
+        <span>Insurance Services</span>
+      </div>
+    </div>
+    <div class="hero-title">
+      PROTECT<br>YOUR <span class="accent">SCREEN.</span>
+    </div>
+    <p class="hero-sub">Affordable phone screen insurance. Pay monthly, get covered after 3 months. One full replacement when you need it.</p>
+  </div>
+
+  <!-- PRICING TIERS -->
+  <div class="pricing-section">
+    <div class="section-label">📋 Monthly Premium Plans</div>
+    <div class="tiers">
+      <div class="tier" onclick="selectTier('basic', 'R25', this)">
+        <div class="tier-name">Basic</div>
+        <div class="tier-price">R25<span class="pm">/mo</span></div>
+        <div class="tier-models">Entry-level phones</div>
+      </div>
+      <div class="tier" onclick="selectTier('mid', 'R75', this)">
+        <div class="tier-name">Standard</div>
+        <div class="tier-price">R75<span class="pm">/mo</span></div>
+        <div class="tier-models">Mid-range phones</div>
+      </div>
+      <div class="tier" onclick="selectTier('premium', 'R150', this)">
+        <div class="tier-name">Premium</div>
+        <div class="tier-price">R150<span class="pm">/mo</span></div>
+        <div class="tier-models">iPhone & S-Series</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGISTRATION FORM -->
+  <div class="form-card" id="formCard">
+    <div class="form-heading">MEMBER REGISTRATION</div>
+    <div class="form-sub">Fill in your details to join Brazotech Insurance</div>
+
+    <!-- Personal Info -->
+    <div class="field">
+      <label>Full Name</label>
+      <input type="text" id="fullName" placeholder="e.g. Thabo Nkosi">
+      <div class="field-error" id="err-fullName">Please enter your full name</div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Phone Number</label>
+        <input type="tel" id="phone" placeholder="071 234 5678">
+        <div class="field-error" id="err-phone">Enter a valid number</div>
+      </div>
+      <div class="field">
+        <label>ID Number</label>
+        <input type="text" id="idNumber" placeholder="13-digit ID">
+        <div class="field-error" id="err-idNumber">Enter your ID number</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Area / Neighbourhood</label>
+      <input type="text" id="area" placeholder="e.g. Soweto, Khayelitsha, Mitchells Plain">
+      <div class="field-error" id="err-area">Please enter your area</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Phone Details -->
+    <div class="field">
+      <label>Phone Model</label>
+      <input type="text" id="phoneModel" placeholder="e.g. Samsung A15, iPhone 13, Galaxy S23">
+      <div class="field-error" id="err-phoneModel">Please enter your phone model</div>
+    </div>
+
+    <div class="field">
+      <label>Phone Category — Select Your Plan</label>
+      <div class="phone-cats">
+        <div class="phone-cat" onclick="selectCategory('basic', 'R25/month', this)">
+          <div class="phone-cat-title">📱 Basic Phones</div>
+          <div class="phone-cat-examples">Samsung A-series, Huawei Y-series, entry-level Android</div>
+          <div class="phone-cat-price">From R25/mo</div>
+        </div>
+        <div class="phone-cat" onclick="selectCategory('mid', 'R75/month', this)">
+          <div class="phone-cat-title">📲 Mid-Range</div>
+          <div class="phone-cat-examples">Samsung M-series, Xiaomi, Oppo, mid-range Android</div>
+          <div class="phone-cat-price">R75/mo</div>
+        </div>
+        <div class="phone-cat" onclick="selectCategory('premium', 'R150/month', this)" style="grid-column: span 2;">
+          <div class="phone-cat-title">💎 Premium Phones</div>
+          <div class="phone-cat-examples">iPhone (all models), Samsung S-series, Samsung Z-series, flagship Android</div>
+          <div class="phone-cat-price">R150/mo</div>
+        </div>
+      </div>
+      <div class="selected-tier-display" id="selectedTierDisplay">
+        <span class="std-label">Your monthly premium:</span>
+        <span class="std-price" id="selectedTierPrice">—</span>
+      </div>
+      <div class="field-error" id="err-category">Please select your phone category</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Screen Condition -->
+    <div class="field">
+      <label>Screen Condition (Inspected at sign-up)</label>
+      <div class="condition-btns">
+        <button class="cond-btn" onclick="selectCondition('good', this)">
+          <span class="cond-emoji">✅</span>
+          Perfect — No Cracks
+        </button>
+        <button class="cond-btn" onclick="selectCondition('bad', this)">
+          <span class="cond-emoji">❌</span>
+          Already Cracked
+        </button>
+      </div>
+      <div class="field-error" id="err-condition">Please select screen condition</div>
+    </div>
+
+    <!-- Photo Upload -->
+    <div class="field">
+      <label>Photo of Phone Screen</label>
+      <div class="photo-upload" id="photoUploadArea">
+        <input type="file" id="photoInput" accept="image/*" onchange="handlePhoto(this)">
+        <span class="upload-icon">📷</span>
+        <div class="upload-text">Tap to take a photo or upload<br><strong>Proof of screen condition</strong></div>
+        <img id="photoPreview" src="" alt="Screen photo">
+      </div>
+      <div class="field-error" id="err-photo">Please upload a photo of your screen</div>
+    </div>
+
+    <!-- Payment Method -->
+    <div class="field">
+      <label>Payment Method</label>
+      <div class="pay-btns">
+        <button class="pay-btn" onclick="selectPayment('EFT', this)">
+          <span class="pay-icon">🏦</span> EFT
+        </button>
+        <button class="pay-btn" onclick="selectPayment('Cash', this)">
+          <span class="pay-icon">💵</span> Cash
+        </button>
+        <button class="pay-btn" onclick="selectPayment('Snapscan', this)">
+          <span class="pay-icon">📲</span> Snapscan
+        </button>
+      </div>
+      <div class="field-error" id="err-payment">Please select a payment method</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Terms -->
+    <div class="terms-row">
+      <input type="checkbox" id="terms">
+      <label for="terms">
+        I confirm my screen has no existing damage, I agree to pay the selected monthly premium, and I understand cover starts after <strong>3 months</strong>. Only <strong>1 claim</strong> is allowed per membership.
+      </label>
+    </div>
+
+    <button class="submit-btn" onclick="handleSubmit()">
+      REGISTER NOW — JOIN BRAZOTECH
+    </button>
+  </div>
+
+  <!-- REJECTED -->
+  <div class="rejected-screen" id="rejectedScreen">
+    <span class="rejected-icon">🚫</span>
+    <h2>APPLICATION DECLINED</h2>
+    <p>Your phone screen already has damage, so we are unable to offer cover at this time.<br><br>
+    Once your screen is repaired and in good condition, you are welcome to apply again!</p>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-banner">
+      <div class="success-icon-wrap">✅</div>
+      <h2>WELCOME TO BRAZOTECH!</h2>
+      <p>Your registration is confirmed. Cover begins after 3 months of payments. Keep this as your proof of membership.</p>
+    </div>
+
+    <div class="member-card">
+      <div class="member-card-header">
+        <div class="member-card-brand">BRAZOTECH INSURANCE</div>
+        <div class="member-badge">ACTIVE MEMBER</div>
+      </div>
+      <div class="member-grid">
+        <div>
+          <div class="member-field-label">Full Name</div>
+          <div class="member-field-value" id="s-name">—</div>
+        </div>
+        <div>
+          <div class="member-field-label">Contact</div>
+          <div class="member-field-value" id="s-phone">—</div>
+        </div>
+        <div>
+          <div class="member-field-label">Phone Model</div>
+          <div class="member-field-value" id="s-model">—</div>
+        </div>
+        <div>
+          <div class="member-field-label">Plan</div>
+          <div class="member-field-value highlight" id="s-premium">—</div>
+        </div>
+        <div>
+          <div class="member-field-label">Member ID</div>
+          <div class="member-field-value" id="s-memberid">—</div>
+        </div>
+        <div>
+          <div class="member-field-label">Cover Starts</div>
+          <div class="member-field-value" id="s-coverdate">—</div>
+        </div>
+        <div>
+          <div class="member-field-label">Join Date</div>
+          <div class="member-field-value" id="s-joindate">—</div>
+        </div>
+        <div>
+          <div class="member-field-label">Payment</div>
+          <div class="member-field-value" id="s-payment">—</div>
+        </div>
+      </div>
+    </div>
+
+    <a class="whatsapp-btn" id="whatsappLink" href="#" target="_blank">
+      💬 &nbsp; CONFIRM ON WHATSAPP
+    </a>
+  </div>
+
+</div>
+
+<script>
+  // ---- EmailJS Config ----
+  const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
+  const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+  const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
+  emailjs.init(EMAILJS_PUBLIC_KEY);
+
+  let screenCondition = null;
+  let paymentMethod   = null;
+  let phoneCategory   = null;
+  let selectedPremium = null;
+  let photoFile       = null;
+
+  function selectTier(tier, price, el) {
+    document.querySelectorAll('.tier').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function selectCategory(cat, price, el) {
+    phoneCategory   = cat;
+    selectedPremium = price;
+    document.querySelectorAll('.phone-cat').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('selectedTierPrice').textContent = price;
+    document.getElementById('selectedTierDisplay').classList.add('visible');
+    document.getElementById('err-category').style.display = 'none';
+
+    // Also highlight the matching tier card
+    const tierMap = { basic: 0, mid: 1, premium: 2 };
+    document.querySelectorAll('.tier').forEach((t, i) => {
+      t.classList.toggle('active', i === tierMap[cat]);
+    });
+  }
+
+  function selectCondition(val, btn) {
+    screenCondition = val;
+    document.querySelectorAll('.cond-btn').forEach(b => { b.className = 'cond-btn'; });
+    btn.classList.add(val === 'good' ? 'good' : 'bad');
+    document.getElementById('err-condition').style.display = 'none';
+  }
+
+  function selectPayment(val, btn) {
+    paymentMethod = val;
+    document.querySelectorAll('.pay-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById('err-payment').style.display = 'none';
+  }
+
+  function handlePhoto(input) {
+    if (input.files && input.files[0]) {
+      photoFile = input.files[0];
+      const reader = new FileReader();
+      reader.onload = e => {
+        const preview = document.getElementById('photoPreview');
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+        document.getElementById('photoUploadArea').classList.add('has-photo');
+        document.getElementById('err-photo').style.display = 'none';
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  function validate() {
+    let valid = true;
+    const required = [
+      { id: 'fullName',   err: 'err-fullName' },
+      { id: 'phone',      err: 'err-phone' },
+      { id: 'idNumber',   err: 'err-idNumber' },
+      { id: 'area',       err: 'err-area' },
+      { id: 'phoneModel', err: 'err-phoneModel' },
+    ];
+
+    required.forEach(f => {
+      const el  = document.getElementById(f.id);
+      const err = document.getElementById(f.err);
+      if (!el.value.trim()) {
+        el.classList.add('error');
+        err.style.display = 'block';
+        valid = false;
+      } else {
+        el.classList.remove('error');
+        err.style.display = 'none';
+      }
+    });
+
+    if (!phoneCategory) {
+      document.getElementById('err-category').style.display = 'block';
+      valid = false;
+    }
+
+    if (!screenCondition) {
+      document.getElementById('err-condition').style.display = 'block';
+      valid = false;
+    }
+
+    if (!photoFile) {
+      document.getElementById('err-photo').style.display = 'block';
+      valid = false;
+    }
+
+    if (!paymentMethod) {
+      document.getElementById('err-payment').style.display = 'block';
+      valid = false;
+    }
+
+    if (!document.getElementById('terms').checked) {
+      alert('Please agree to the terms before registering.');
+      valid = false;
+    }
+
+    return valid;
+  }
+
+  function getCoverDate() {
+    const d = new Date();
+    d.setMonth(d.getMonth() + 3);
+    return d.toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function getMemberID() {
+    return 'BT-' + Date.now().toString(36).toUpperCase().slice(-7);
+  }
+
+  function handleSubmit() {
+    if (!validate()) return;
+
+    const name    = document.getElementById('fullName').value.trim();
+    const phone   = document.getElementById('phone').value.trim();
+    const idNum   = document.getElementById('idNumber').value.trim();
+    const area    = document.getElementById('area').value.trim();
+    const model   = document.getElementById('phoneModel').value.trim();
+
+    document.getElementById('formCard').style.display = 'none';
+
+    if (screenCondition === 'bad') {
+      document.getElementById('rejectedScreen').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    const memberID  = getMemberID();
+    const coverDate = getCoverDate();
+    const joinDate  = new Date().toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    document.getElementById('s-name').textContent     = name;
+    document.getElementById('s-phone').textContent    = phone;
+    document.getElementById('s-model').textContent    = model;
+    document.getElementById('s-premium').textContent  = selectedPremium;
+    document.getElementById('s-memberid').textContent = memberID;
+    document.getElementById('s-coverdate').textContent = coverDate;
+    document.getElementById('s-joindate').textContent  = joinDate;
+    document.getElementById('s-payment').textContent   = paymentMethod;
+
+    // WhatsApp message
+    const msg = encodeURIComponent(
+      `Hi Brazotech! I just registered 🛡️\n\nName: ${name}\nPhone: ${phone}\nID: ${idNum}\nDevice: ${model}\nArea: ${area}\nPlan: ${selectedPremium}\nMember ID: ${memberID}\nPayment: ${paymentMethod}\n\nReady to make my first payment!`
+    );
+    document.getElementById('whatsappLink').href = `https://wa.me/27786677069?text=${msg}`;
+
+    // Send email
+    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      to_email:       'Nicolascophy164@gmail.com',
+      member_name:    name,
+      member_phone:   phone,
+      member_id_num:  idNum,
+      phone_model:    model,
+      area:           area,
+      premium:        selectedPremium,
+      phone_category: phoneCategory,
+      member_id_code: memberID,
+      payment_method: paymentMethod,
+      join_date:      joinDate,
+      cover_date:     coverDate,
+    }).catch(err => console.warn('Email error:', err));
+
+    document.getElementById('successScreen').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
