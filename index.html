@@ -12,677 +12,180 @@
     --red-dark: #A01E2A;
     --red-glow: rgba(215,38,56,0.35);
     --black: #0A0A0A;
-    --dark: #111111;
     --card: #181818;
     --border: #2A2A2A;
     --white: #F5F5F5;
     --grey: #777777;
     --light-grey: #AAAAAA;
     --success: #22C55E;
-    --success-glow: rgba(34,197,94,0.25);
   }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Outfit',sans-serif; background:var(--black); color:var(--white); min-height:100vh; overflow-x:hidden; }
+  body::before { content:''; position:fixed; inset:0; background-image:linear-gradient(rgba(215,38,56,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(215,38,56,0.04) 1px,transparent 1px); background-size:40px 40px; pointer-events:none; z-index:0; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  .container { max-width:540px; margin:0 auto; padding:0 20px 80px; position:relative; z-index:1; }
 
-  body {
-    font-family: 'Outfit', sans-serif;
-    background: var(--black);
-    color: var(--white);
-    min-height: 100vh;
-    overflow-x: hidden;
+  /* HERO */
+  .header { padding:48px 0 36px; animation:slideDown 0.6s ease both; }
+  .brand-row { display:flex; align-items:center; gap:14px; margin-bottom:32px; }
+  .brand-icon { width:48px; height:48px; background:var(--red); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; box-shadow:0 0 20px var(--red-glow); flex-shrink:0; }
+  .brand-name { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:0.08em; line-height:1; }
+  .brand-name span { display:block; font-family:'Outfit',sans-serif; font-size:11px; letter-spacing:0.2em; color:var(--red); text-transform:uppercase; font-weight:500; margin-top:3px; }
+  .hero-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(48px,12vw,72px); letter-spacing:0.04em; line-height:0.95; margin-bottom:16px; }
+  .hero-title .accent { color:var(--red); }
+  .hero-sub { color:var(--light-grey); font-size:15px; font-weight:300; line-height:1.6; max-width:360px; }
+
+  /* PRICING */
+  .pricing-section { margin-bottom:36px; animation:fadeUp 0.6s 0.1s ease both; }
+  .section-label { font-size:11px; text-transform:uppercase; letter-spacing:0.2em; color:var(--red); font-weight:600; margin-bottom:14px; }
+  .tiers { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+  .tier { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px 12px; text-align:center; cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden; }
+  .tier:hover { border-color:var(--red); }
+  .tier.active { border-color:var(--red); background:rgba(215,38,56,0.08); box-shadow:0 0 20px var(--red-glow); }
+  .tier.active::before { content:'✓'; position:absolute; top:8px; right:10px; font-size:11px; color:var(--red); font-weight:700; }
+  .tier-name { font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--grey); margin-bottom:6px; }
+  .tier-price { font-family:'Bebas Neue',sans-serif; font-size:30px; color:var(--white); letter-spacing:0.02em; line-height:1; }
+  .tier-price .pm { font-size:13px; color:var(--grey); font-family:'Outfit',sans-serif; }
+  .tier-models { font-size:10px; color:var(--grey); margin-top:5px; line-height:1.4; }
+
+  /* FORM */
+  .form-card { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:28px 24px; animation:fadeUp 0.6s 0.2s ease both; }
+  .form-heading { font-family:'Bebas Neue',sans-serif; font-size:26px; letter-spacing:0.05em; margin-bottom:4px; }
+  .form-sub { color:var(--grey); font-size:13px; margin-bottom:26px; }
+  .field { margin-bottom:16px; }
+  label { display:block; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; color:var(--grey); margin-bottom:8px; }
+  input, select, textarea { width:100%; background:#1E1E1E; border:1.5px solid var(--border); border-radius:10px; padding:13px 15px; color:var(--white); font-family:'Outfit',sans-serif; font-size:15px; outline:none; transition:border-color 0.2s,box-shadow 0.2s; -webkit-appearance:none; }
+  input::placeholder { color:#444; }
+  input:focus, select:focus { border-color:var(--red); box-shadow:0 0 0 3px rgba(215,38,56,0.1); }
+  select option { background:#1E1E1E; }
+  .field-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .field-error { color:#F87171; font-size:11px; margin-top:5px; display:none; font-weight:500; }
+  input.error, select.error { border-color:#EF4444; }
+
+  /* Auto-detect result */
+  .detect-result {
+    margin-top:10px;
+    border-radius:10px;
+    padding:12px 16px;
+    display:none;
+    align-items:center;
+    gap:10px;
+    font-size:14px;
+    font-weight:600;
   }
+  .detect-result.found { background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.3); color:#86EFAC; display:flex; }
+  .detect-result.notfound { background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.3); color:#FCD34D; display:flex; }
+  .detect-icon { font-size:18px; }
 
-  /* Grid background */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(215,38,56,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(215,38,56,0.04) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  body::after {
-    content: '';
-    position: fixed;
-    top: -200px; left: -200px;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(215,38,56,0.12) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .container {
-    max-width: 540px;
-    margin: 0 auto;
-    padding: 0 20px 80px;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* ---- HEADER ---- */
-  .header {
-    padding: 48px 0 36px;
-    animation: slideDown 0.6s ease both;
-  }
-
-  .brand-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 32px;
-  }
-
-  .brand-icon {
-    width: 48px; height: 48px;
-    background: var(--red);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    box-shadow: 0 0 20px var(--red-glow);
-    flex-shrink: 0;
-  }
-
-  .brand-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    letter-spacing: 0.08em;
-    line-height: 1;
-  }
-
-  .brand-name span {
-    display: block;
-    font-family: 'Outfit', sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    color: var(--red);
-    text-transform: uppercase;
-    font-weight: 500;
-    margin-top: 3px;
-  }
-
-  .hero-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(48px, 12vw, 72px);
-    letter-spacing: 0.04em;
-    line-height: 0.95;
-    margin-bottom: 16px;
-  }
-
-  .hero-title .accent { color: var(--red); }
-
-  .hero-sub {
-    color: var(--light-grey);
-    font-size: 15px;
-    font-weight: 300;
-    line-height: 1.6;
-    max-width: 360px;
-  }
-
-  /* ---- PRICING TIERS ---- */
-  .pricing-section {
-    margin-bottom: 36px;
-    animation: fadeUp 0.6s 0.1s ease both;
-  }
-
-  .section-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--red);
-    font-weight: 600;
-    margin-bottom: 14px;
-  }
-
-  .tiers {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
-  }
-
-  .tier {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px 12px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .tier:hover { border-color: var(--red); }
-
-  .tier.active {
-    border-color: var(--red);
-    background: rgba(215,38,56,0.08);
-    box-shadow: 0 0 20px var(--red-glow);
-  }
-
-  .tier.active::before {
-    content: '✓';
-    position: absolute;
-    top: 8px; right: 10px;
-    font-size: 11px;
-    color: var(--red);
-    font-weight: 700;
-  }
-
-  .tier-name {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--grey);
-    margin-bottom: 6px;
-  }
-
-  .tier-price {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 30px;
-    color: var(--white);
-    letter-spacing: 0.02em;
-    line-height: 1;
-  }
-
-  .tier-price .pm { font-size: 13px; color: var(--grey); font-family: 'Outfit', sans-serif; }
-
-  .tier-models {
-    font-size: 10px;
-    color: var(--grey);
-    margin-top: 5px;
-    line-height: 1.4;
-  }
-
-  /* ---- FORM ---- */
-  .form-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 28px 24px;
-    animation: fadeUp 0.6s 0.2s ease both;
-  }
-
-  .form-heading {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 26px;
-    letter-spacing: 0.05em;
-    margin-bottom: 4px;
-  }
-
-  .form-sub {
-    color: var(--grey);
-    font-size: 13px;
-    margin-bottom: 26px;
-  }
-
-  .field { margin-bottom: 16px; }
-
-  label {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--grey);
-    margin-bottom: 8px;
-  }
-
-  input, select, textarea {
-    width: 100%;
-    background: #1E1E1E;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 13px 15px;
-    color: var(--white);
-    font-family: 'Outfit', sans-serif;
-    font-size: 15px;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    -webkit-appearance: none;
-  }
-
-  input::placeholder, textarea::placeholder { color: #444; }
-  input:focus, select:focus, textarea:focus {
-    border-color: var(--red);
-    box-shadow: 0 0 0 3px rgba(215,38,56,0.1);
-  }
-
-  select option { background: #1E1E1E; }
-
-  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-  .field-error {
-    color: #F87171;
-    font-size: 11px;
-    margin-top: 5px;
-    display: none;
-    font-weight: 500;
-  }
-
-  input.error, select.error { border-color: #EF4444; }
-
-  /* Phone category selector */
-  .phone-cats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .phone-cat {
-    background: #1E1E1E;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: left;
-  }
-
-  .phone-cat:hover { border-color: var(--red); }
-
-  .phone-cat.selected {
-    border-color: var(--red);
-    background: rgba(215,38,56,0.08);
-  }
-
-  .phone-cat-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--white);
-    margin-bottom: 3px;
-  }
-
-  .phone-cat-examples {
-    font-size: 11px;
-    color: var(--grey);
-  }
-
-  .phone-cat-price {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px;
-    color: var(--red);
-    margin-top: 6px;
-  }
+  /* Suggestions dropdown */
+  .suggestions { position:relative; }
+  .suggestions-list { position:absolute; top:100%; left:0; right:0; background:#1E1E1E; border:1.5px solid var(--red); border-top:none; border-radius:0 0 10px 10px; max-height:200px; overflow-y:auto; z-index:10; display:none; }
+  .suggestions-list.open { display:block; }
+  .suggestion-item { padding:10px 15px; cursor:pointer; font-size:14px; transition:background 0.15s; display:flex; justify-content:space-between; align-items:center; }
+  .suggestion-item:hover { background:rgba(215,38,56,0.12); }
+  .suggestion-price { font-size:12px; color:var(--grey); }
+  .suggestion-plan { font-size:11px; padding:2px 8px; border-radius:100px; font-weight:700; }
+  .plan-basic { background:rgba(129,140,248,0.15); color:#818CF8; }
+  .plan-standard { background:rgba(245,158,11,0.15); color:#FCD34D; }
+  .plan-premium { background:rgba(215,38,56,0.15); color:#F87171; }
 
   /* Screen condition */
-  .condition-btns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .cond-btn {
-    background: #1E1E1E;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 14px;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.2s;
-    color: var(--white);
-    font-family: 'Outfit', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-  }
-
-  .cond-btn:hover { border-color: #555; }
-  .cond-btn.good { border-color: var(--success); background: rgba(34,197,94,0.08); color: #86EFAC; }
-  .cond-btn.bad { border-color: #EF4444; background: rgba(239,68,68,0.08); color: #FCA5A5; }
-  .cond-emoji { font-size: 24px; display: block; margin-bottom: 6px; }
+  .condition-btns { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .cond-btn { background:#1E1E1E; border:1.5px solid var(--border); border-radius:10px; padding:14px; cursor:pointer; text-align:center; transition:all 0.2s; color:var(--white); font-family:'Outfit',sans-serif; font-size:13px; font-weight:500; }
+  .cond-btn:hover { border-color:#555; }
+  .cond-btn.good { border-color:var(--success); background:rgba(34,197,94,0.08); color:#86EFAC; }
+  .cond-btn.bad { border-color:#EF4444; background:rgba(239,68,68,0.08); color:#FCA5A5; }
+  .cond-emoji { font-size:24px; display:block; margin-bottom:6px; }
 
   /* Photo upload */
-  .photo-upload {
-    border: 2px dashed var(--border);
-    border-radius: 10px;
-    padding: 24px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
+  .photo-upload { border:2px dashed var(--border); border-radius:10px; padding:24px; text-align:center; cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden; }
+  .photo-upload:hover { border-color:var(--red); background:rgba(215,38,56,0.04); }
+  .photo-upload.has-photo { border-color:var(--success); border-style:solid; }
+  .photo-upload input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; padding:0; border:none; background:none; }
+  .upload-icon { font-size:32px; display:block; margin-bottom:8px; }
+  .upload-text { font-size:13px; color:var(--grey); }
+  .upload-text strong { color:var(--red); }
+  #photoPreview { max-width:100%; max-height:120px; border-radius:8px; margin-top:10px; display:none; }
 
-  .photo-upload:hover { border-color: var(--red); background: rgba(215,38,56,0.04); }
-  .photo-upload.has-photo { border-color: var(--success); border-style: solid; }
+  /* Payment */
+  .pay-btns { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .pay-btn { background:#1E1E1E; border:1.5px solid var(--border); border-radius:10px; padding:12px 8px; cursor:pointer; text-align:center; transition:all 0.2s; color:var(--white); font-family:'Outfit',sans-serif; font-size:12px; font-weight:500; }
+  .pay-btn:hover { border-color:var(--red); }
+  .pay-btn.selected { border-color:var(--red); background:rgba(215,38,56,0.08); color:#FCA5A5; }
+  .pay-icon { font-size:20px; display:block; margin-bottom:4px; }
 
-  .photo-upload input[type=file] {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    border: none;
-    background: none;
-  }
-
-  .upload-icon { font-size: 32px; display: block; margin-bottom: 8px; }
-  .upload-text { font-size: 13px; color: var(--grey); }
-  .upload-text strong { color: var(--red); }
-
-  #photoPreview {
-    max-width: 100%;
-    max-height: 120px;
-    border-radius: 8px;
-    margin-top: 10px;
-    display: none;
-  }
-
-  /* Payment method */
-  .pay-btns {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-  }
-
-  .pay-btn {
-    background: #1E1E1E;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 8px;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.2s;
-    color: var(--white);
-    font-family: 'Outfit', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-  }
-
-  .pay-btn:hover { border-color: var(--red); }
-  .pay-btn.selected { border-color: var(--red); background: rgba(215,38,56,0.08); color: #FCA5A5; }
-  .pay-icon { font-size: 20px; display: block; margin-bottom: 4px; }
-
-  /* Divider */
-  .divider {
-    height: 1px;
-    background: var(--border);
-    margin: 22px 0;
-  }
+  .divider { height:1px; background:var(--border); margin:22px 0; }
 
   /* Terms */
-  .terms-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 22px;
-  }
-
+  .terms-row { display:flex; align-items:flex-start; gap:12px; margin-bottom:22px; }
   .terms-row input[type=checkbox] {
-    width: 18px; height: 18px;
-    flex-shrink: 0;
-    margin-top: 2px;
-    accent-color: var(--red);
-    cursor: pointer;
-    padding: 0; border: none; background: none;
+    width:24px; height:24px; flex-shrink:0; margin-top:2px; cursor:pointer;
+    appearance:none; -webkit-appearance:none;
+    background:#2A2A2A; border:2.5px solid #D72638; border-radius:6px;
+    position:relative; transition:background 0.2s;
   }
-
-  .terms-row label {
-    color: var(--grey);
-    font-size: 12px;
-    line-height: 1.6;
-    margin: 0;
-    text-transform: none;
-    letter-spacing: 0;
-    font-weight: 400;
-    cursor: pointer;
-  }
+  .terms-row input[type=checkbox]:checked { background:var(--red); }
+  .terms-row input[type=checkbox]:checked::after { content:'✓'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:white; font-size:15px; font-weight:900; line-height:1; }
+  .terms-row label { color:var(--grey); font-size:12px; line-height:1.6; margin:0; text-transform:none; letter-spacing:0; font-weight:400; cursor:pointer; }
 
   /* Submit */
-  .submit-btn {
-    width: 100%;
-    background: var(--red);
-    border: none;
-    border-radius: 12px;
-    padding: 17px;
-    color: white;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 0.1em;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 4px 24px var(--red-glow);
-    position: relative;
-    overflow: hidden;
-  }
+  .submit-btn { width:100%; background:var(--red); border:none; border-radius:12px; padding:17px; color:white; font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:0.1em; cursor:pointer; transition:all 0.2s; box-shadow:0 4px 24px var(--red-glow); }
+  .submit-btn:hover { background:var(--red-dark); transform:translateY(-2px); }
+  .submit-btn:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
 
-  .submit-btn::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-    transition: left 0.4s;
-  }
+  /* Rejected */
+  .rejected-screen { display:none; text-align:center; padding:48px 28px; background:rgba(239,68,68,0.05); border:1px solid rgba(239,68,68,0.2); border-radius:20px; animation:popIn 0.5s ease both; }
+  .rejected-icon { font-size:60px; display:block; margin-bottom:20px; }
+  .rejected-screen h2 { font-family:'Bebas Neue',sans-serif; font-size:32px; letter-spacing:0.05em; color:#F87171; margin-bottom:12px; }
+  .rejected-screen p { color:var(--grey); font-size:15px; line-height:1.7; }
 
-  .submit-btn:hover::before { left: 100%; }
-  .submit-btn:hover { background: var(--red-dark); transform: translateY(-2px); box-shadow: 0 8px 32px var(--red-glow); }
-  .submit-btn:active { transform: translateY(0); }
-  .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  /* Success */
+  .success-screen { display:none; animation:popIn 0.5s ease both; }
+  .success-banner { background:linear-gradient(135deg,#0F2A1A,#0A1A0F); border:1px solid rgba(34,197,94,0.3); border-radius:20px; padding:36px 28px; text-align:center; margin-bottom:20px; }
+  .success-icon-wrap { width:72px; height:72px; background:var(--success); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:32px; margin:0 auto 20px; }
+  .success-banner h2 { font-family:'Bebas Neue',sans-serif; font-size:34px; letter-spacing:0.06em; color:var(--success); margin-bottom:8px; }
+  .success-banner p { color:#86EFAC; font-size:14px; line-height:1.6; }
+  .member-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:22px; margin-bottom:16px; }
+  .member-card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid var(--border); }
+  .member-card-brand { font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:0.08em; color:var(--red); }
+  .member-badge { background:rgba(215,38,56,0.15); border:1px solid rgba(215,38,56,0.3); border-radius:100px; padding:4px 12px; font-size:11px; color:var(--red); font-weight:600; text-transform:uppercase; letter-spacing:0.1em; }
+  .member-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .member-field-label { font-size:10px; text-transform:uppercase; letter-spacing:0.15em; color:var(--grey); margin-bottom:3px; }
+  .member-field-value { font-size:14px; font-weight:600; color:var(--white); }
+  .member-field-value.highlight { color:var(--red); font-family:'Bebas Neue',sans-serif; font-size:18px; }
+  .whatsapp-btn { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; background:#25D366; border:none; border-radius:12px; padding:16px; color:white; font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:0.08em; cursor:pointer; text-decoration:none; transition:opacity 0.2s; }
+  .whatsapp-btn:hover { opacity:0.9; }
 
-  /* ---- REJECTED ---- */
-  .rejected-screen {
-    display: none;
-    text-align: center;
-    padding: 48px 28px;
-    background: rgba(239,68,68,0.05);
-    border: 1px solid rgba(239,68,68,0.2);
-    border-radius: 20px;
-    animation: popIn 0.5s ease both;
-  }
-
-  .rejected-icon { font-size: 60px; display: block; margin-bottom: 20px; }
-
-  .rejected-screen h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 32px;
-    letter-spacing: 0.05em;
-    color: #F87171;
-    margin-bottom: 12px;
-  }
-
-  .rejected-screen p { color: var(--grey); font-size: 15px; line-height: 1.7; }
-
-  /* ---- SUCCESS ---- */
-  .success-screen {
-    display: none;
-    animation: popIn 0.5s ease both;
-  }
-
-  .success-banner {
-    background: linear-gradient(135deg, #0F2A1A, #0A1A0F);
-    border: 1px solid rgba(34,197,94,0.3);
-    border-radius: 20px;
-    padding: 36px 28px;
-    text-align: center;
-    margin-bottom: 20px;
-    box-shadow: 0 0 40px var(--success-glow);
-  }
-
-  .success-icon-wrap {
-    width: 72px; height: 72px;
-    background: var(--success);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 32px;
-    margin: 0 auto 20px;
-    box-shadow: 0 0 30px var(--success-glow);
-  }
-
-  .success-banner h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 34px;
-    letter-spacing: 0.06em;
-    color: var(--success);
-    margin-bottom: 8px;
-  }
-
-  .success-banner p { color: #86EFAC; font-size: 14px; line-height: 1.6; }
-
-  .member-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 22px;
-    margin-bottom: 16px;
-  }
-
-  .member-card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 18px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .member-card-brand {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px;
-    letter-spacing: 0.08em;
-    color: var(--red);
-  }
-
-  .member-badge {
-    background: rgba(215,38,56,0.15);
-    border: 1px solid rgba(215,38,56,0.3);
-    border-radius: 100px;
-    padding: 4px 12px;
-    font-size: 11px;
-    color: var(--red);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  .member-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
-
-  .member-field-label {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--grey);
-    margin-bottom: 3px;
-  }
-
-  .member-field-value {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--white);
-  }
-
-  .member-field-value.highlight { color: var(--red); font-family: 'Bebas Neue', sans-serif; font-size: 18px; }
-
-  .whatsapp-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    background: #25D366;
-    border: none;
-    border-radius: 12px;
-    padding: 16px;
-    color: white;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px;
-    letter-spacing: 0.08em;
-    cursor: pointer;
-    text-decoration: none;
-    transition: opacity 0.2s, transform 0.2s;
-    box-shadow: 0 4px 20px rgba(37,211,102,0.3);
-  }
-
-  .whatsapp-btn:hover { opacity: 0.9; transform: translateY(-2px); }
-
-  /* Animations */
-  @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes popIn {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
-  }
-
-  /* Selected tier highlight on premium row */
-  .selected-tier-display {
-    background: rgba(215,38,56,0.08);
-    border: 1px solid rgba(215,38,56,0.25);
-    border-radius: 10px;
-    padding: 12px 16px;
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 10px;
-  }
-
-  .selected-tier-display.visible { display: flex; }
-  .std-label { font-size: 13px; color: var(--light-grey); }
-  .std-price { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--red); }
+  @keyframes slideDown { from{opacity:0;transform:translateY(-24px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes popIn { from{opacity:0;transform:scale(0.9)} to{opacity:1;transform:scale(1)} }
 </style>
 </head>
 <body>
 <div class="container">
 
-  <!-- HEADER -->
   <div class="header">
     <div class="brand-row">
       <div class="brand-icon">🛡️</div>
-      <div class="brand-name">
-        BRAZOTECH
-        <span>Insurance Services</span>
-      </div>
+      <div class="brand-name">BRAZOTECH<span>Insurance Services</span></div>
     </div>
-    <div class="hero-title">
-      PROTECT<br>YOUR <span class="accent">SCREEN.</span>
-    </div>
+    <div class="hero-title">PROTECT<br>YOUR <span class="accent">SCREEN.</span></div>
     <p class="hero-sub">Affordable phone screen insurance. Pay monthly, get covered after 3 months. One full replacement when you need it.</p>
   </div>
 
-  <!-- PRICING TIERS -->
   <div class="pricing-section">
     <div class="section-label">📋 Monthly Premium Plans</div>
     <div class="tiers">
-      <div class="tier" onclick="selectTier('basic', 'R25', this)">
-        <div class="tier-name">Basic</div>
-        <div class="tier-price">R25<span class="pm">/mo</span></div>
-        <div class="tier-models">Entry-level phones</div>
-      </div>
-      <div class="tier" onclick="selectTier('mid', 'R75', this)">
-        <div class="tier-name">Standard</div>
-        <div class="tier-price">R75<span class="pm">/mo</span></div>
-        <div class="tier-models">Mid-range phones</div>
-      </div>
-      <div class="tier" onclick="selectTier('premium', 'R150', this)">
-        <div class="tier-name">Premium</div>
-        <div class="tier-price">R150<span class="pm">/mo</span></div>
-        <div class="tier-models">iPhone & S-Series</div>
-      </div>
+      <div class="tier" id="tier-basic"><div class="tier-name">Basic</div><div class="tier-price">R25<span class="pm">/mo</span></div><div class="tier-models">Screen cost up to R150</div></div>
+      <div class="tier" id="tier-standard"><div class="tier-name">Standard</div><div class="tier-price">R75<span class="pm">/mo</span></div><div class="tier-models">Screen cost R151–R300</div></div>
+      <div class="tier" id="tier-premium"><div class="tier-name">Premium</div><div class="tier-price">R150<span class="pm">/mo</span></div><div class="tier-models">Screen cost R301–R500</div></div>
     </div>
   </div>
 
-  <!-- REGISTRATION FORM -->
   <div class="form-card" id="formCard">
     <div class="form-heading">MEMBER REGISTRATION</div>
     <div class="form-sub">Fill in your details to join Brazotech Insurance</div>
 
-    <!-- Personal Info -->
     <div class="field">
       <label>Full Name</label>
       <input type="text" id="fullName" placeholder="e.g. Thabo Nkosi">
@@ -704,64 +207,34 @@
 
     <div class="field">
       <label>Area / Neighbourhood</label>
-      <input type="text" id="area" placeholder="e.g. Soweto, Khayelitsha, Mitchells Plain">
+      <input type="text" id="area" placeholder="e.g. Soweto, Khayelitsha">
       <div class="field-error" id="err-area">Please enter your area</div>
     </div>
 
-    <div class="divider"></div>
-
-    <!-- Phone Details -->
     <div class="field">
-      <label>Phone Model</label>
-      <input type="text" id="phoneModel" placeholder="e.g. Samsung A15, iPhone 13, Galaxy S23">
+      <label>Phone Model — Type to auto-detect your plan</label>
+      <div class="suggestions">
+        <input type="text" id="phoneModel" placeholder="e.g. Samsung A15, iPhone 13..." autocomplete="off" oninput="onModelType(this.value)">
+        <div class="suggestions-list" id="suggestionsList"></div>
+      </div>
+      <div class="detect-result" id="detectResult">
+        <span class="detect-icon" id="detectIcon"></span>
+        <span id="detectText"></span>
+      </div>
       <div class="field-error" id="err-phoneModel">Please enter your phone model</div>
     </div>
 
-    <div class="field">
-      <label>Phone Category — Select Your Plan</label>
-      <div class="phone-cats">
-        <div class="phone-cat" onclick="selectCategory('basic', 'R25/month', this)">
-          <div class="phone-cat-title">📱 Basic Phones</div>
-          <div class="phone-cat-examples">Samsung A-series, Huawei Y-series, entry-level Android</div>
-          <div class="phone-cat-price">From R25/mo</div>
-        </div>
-        <div class="phone-cat" onclick="selectCategory('mid', 'R75/month', this)">
-          <div class="phone-cat-title">📲 Mid-Range</div>
-          <div class="phone-cat-examples">Samsung M-series, Xiaomi, Oppo, mid-range Android</div>
-          <div class="phone-cat-price">R75/mo</div>
-        </div>
-        <div class="phone-cat" onclick="selectCategory('premium', 'R150/month', this)" style="grid-column: span 2;">
-          <div class="phone-cat-title">💎 Premium Phones</div>
-          <div class="phone-cat-examples">iPhone (all models), Samsung S-series, Samsung Z-series, flagship Android</div>
-          <div class="phone-cat-price">R150/mo</div>
-        </div>
-      </div>
-      <div class="selected-tier-display" id="selectedTierDisplay">
-        <span class="std-label">Your monthly premium:</span>
-        <span class="std-price" id="selectedTierPrice">—</span>
-      </div>
-      <div class="field-error" id="err-category">Please select your phone category</div>
-    </div>
-
     <div class="divider"></div>
 
-    <!-- Screen Condition -->
     <div class="field">
       <label>Screen Condition (Inspected at sign-up)</label>
       <div class="condition-btns">
-        <button class="cond-btn" onclick="selectCondition('good', this)">
-          <span class="cond-emoji">✅</span>
-          Perfect — No Cracks
-        </button>
-        <button class="cond-btn" onclick="selectCondition('bad', this)">
-          <span class="cond-emoji">❌</span>
-          Already Cracked
-        </button>
+        <button class="cond-btn" onclick="selectCondition('good',this)"><span class="cond-emoji">✅</span>Perfect — No Cracks</button>
+        <button class="cond-btn" onclick="selectCondition('bad',this)"><span class="cond-emoji">❌</span>Already Cracked</button>
       </div>
       <div class="field-error" id="err-condition">Please select screen condition</div>
     </div>
 
-    <!-- Photo Upload -->
     <div class="field">
       <label>Photo of Phone Screen</label>
       <div class="photo-upload" id="photoUploadArea">
@@ -773,281 +246,521 @@
       <div class="field-error" id="err-photo">Please upload a photo of your screen</div>
     </div>
 
-    <!-- Payment Method -->
     <div class="field">
       <label>Payment Method</label>
       <div class="pay-btns">
-        <button class="pay-btn" onclick="selectPayment('EFT', this)">
-          <span class="pay-icon">🏦</span> EFT
-        </button>
-        <button class="pay-btn" onclick="selectPayment('Cash', this)">
-          <span class="pay-icon">💵</span> Cash
-        </button>
-        <button class="pay-btn" onclick="selectPayment('Snapscan', this)">
-          <span class="pay-icon">📲</span> Snapscan
-        </button>
+        <button class="pay-btn" onclick="selectPayment('EFT',this)"><span class="pay-icon">🏦</span>EFT</button>
+        <button class="pay-btn" onclick="selectPayment('Cash',this)"><span class="pay-icon">💵</span>Cash</button>
+        <button class="pay-btn" onclick="selectPayment('Snapscan',this)"><span class="pay-icon">📲</span>Snapscan</button>
       </div>
       <div class="field-error" id="err-payment">Please select a payment method</div>
     </div>
 
     <div class="divider"></div>
 
-    <!-- Terms -->
     <div class="terms-row">
       <input type="checkbox" id="terms">
-      <label for="terms">
-        I confirm my screen has no existing damage, I agree to pay the selected monthly premium, and I understand cover starts after <strong>3 months</strong>. Only <strong>1 claim</strong> is allowed per membership.
-      </label>
+      <label for="terms">I confirm my screen has no existing damage, I agree to pay the selected monthly premium, and I understand cover starts after <strong>3 months</strong>. Only <strong>1 claim</strong> is allowed per membership.</label>
     </div>
 
-    <button class="submit-btn" onclick="handleSubmit()">
-      REGISTER NOW — JOIN BRAZOTECH
-    </button>
+    <button class="submit-btn" onclick="handleSubmit()">REGISTER NOW — JOIN BRAZOTECH</button>
   </div>
 
-  <!-- REJECTED -->
   <div class="rejected-screen" id="rejectedScreen">
     <span class="rejected-icon">🚫</span>
     <h2>APPLICATION DECLINED</h2>
-    <p>Your phone screen already has damage, so we are unable to offer cover at this time.<br><br>
-    Once your screen is repaired and in good condition, you are welcome to apply again!</p>
+    <p>Your phone screen already has damage, so we are unable to offer cover at this time.<br><br>Once your screen is repaired and in good condition, you are welcome to apply again!</p>
   </div>
 
-  <!-- SUCCESS -->
   <div class="success-screen" id="successScreen">
     <div class="success-banner">
       <div class="success-icon-wrap">✅</div>
       <h2>WELCOME TO BRAZOTECH!</h2>
-      <p>Your registration is confirmed. Cover begins after 3 months of payments. Keep this as your proof of membership.</p>
+      <p>Your registration is confirmed. Cover begins after 3 months of payments.</p>
     </div>
-
     <div class="member-card">
       <div class="member-card-header">
         <div class="member-card-brand">BRAZOTECH INSURANCE</div>
         <div class="member-badge">ACTIVE MEMBER</div>
       </div>
       <div class="member-grid">
-        <div>
-          <div class="member-field-label">Full Name</div>
-          <div class="member-field-value" id="s-name">—</div>
-        </div>
-        <div>
-          <div class="member-field-label">Contact</div>
-          <div class="member-field-value" id="s-phone">—</div>
-        </div>
-        <div>
-          <div class="member-field-label">Phone Model</div>
-          <div class="member-field-value" id="s-model">—</div>
-        </div>
-        <div>
-          <div class="member-field-label">Plan</div>
-          <div class="member-field-value highlight" id="s-premium">—</div>
-        </div>
-        <div>
-          <div class="member-field-label">Member ID</div>
-          <div class="member-field-value" id="s-memberid">—</div>
-        </div>
-        <div>
-          <div class="member-field-label">Cover Starts</div>
-          <div class="member-field-value" id="s-coverdate">—</div>
-        </div>
-        <div>
-          <div class="member-field-label">Join Date</div>
-          <div class="member-field-value" id="s-joindate">—</div>
-        </div>
-        <div>
-          <div class="member-field-label">Payment</div>
-          <div class="member-field-value" id="s-payment">—</div>
-        </div>
+        <div><div class="member-field-label">Full Name</div><div class="member-field-value" id="s-name">—</div></div>
+        <div><div class="member-field-label">Contact</div><div class="member-field-value" id="s-phone">—</div></div>
+        <div><div class="member-field-label">Phone Model</div><div class="member-field-value" id="s-model">—</div></div>
+        <div><div class="member-field-label">Monthly Plan</div><div class="member-field-value highlight" id="s-premium">—</div></div>
+        <div><div class="member-field-label">Member ID</div><div class="member-field-value" id="s-memberid">—</div></div>
+        <div><div class="member-field-label">Cover Starts</div><div class="member-field-value" id="s-coverdate">—</div></div>
+        <div><div class="member-field-label">Join Date</div><div class="member-field-value" id="s-joindate">—</div></div>
+        <div><div class="member-field-label">Payment</div><div class="member-field-value" id="s-payment">—</div></div>
       </div>
     </div>
-
-    <a class="whatsapp-btn" id="whatsappLink" href="#" target="_blank">
-      💬 &nbsp; CONFIRM ON WHATSAPP
-    </a>
+    <a class="whatsapp-btn" id="whatsappLink" href="#" target="_blank">💬 &nbsp; CONFIRM ON WHATSAPP</a>
   </div>
 
 </div>
 
 <script>
-  // ---- EmailJS Config ----
-  const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
-  const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-  const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
+// =====================================================================
+// PHONE DATABASE — model: screen_cost (in Rands)
+// Plan rules: ≤150 = R25 (basic), 151-300 = R75 (standard), 301-500 = R150 (premium)
+// =====================================================================
+const PHONE_DB = {
+  // SAMSUNG A
+  "A01M":85,"A01S":85,"A02":78,"A12":78,"A02S":78,"A03S":78,"A04E":78,
+  "A260":68,"A3":145,"A310":135,"A320":125,"A3Core":78,"A03":82,"A037U":145,
+  "A03Core":78,"A04":86,"A04S":88,"A5":125,"A510":130,"A520":145,"A530":125,
+  "A05":93,"A05S":110,"A06":102,"A6+":110,"A07":140,"A710":155,"A720":155,
+  "A730":190,"A750":115,"A8":125,"A10":85,"A10E":115,"A20E":115,"A10S":86,
+  "A11":93,"A13 4G":90,"A13 5G":90,"A14 4G":95,"A14 5G":103,"SM A15":120,
+  "SM A16":125,"SM A17 4G":145,"SM A17 5G":150,"A20":95,"A20+":120,"A20S":110,
+  "A21S":90,"A22 4G":110,"A22 5G":110,"A23 4G":105,"A23 5G":110,"A24":122,
+  "A25":122,"A26":125,"A30":110,"A50":110,"A30S":104,"A31":110,"A32 4G":115,
+  "A32 5G":115,"A33 5G":120,"A34":130,"A35":150,"A36":175,"A40":160,"A42":155,
+  "A50":135,"A51":120,"A52S":140,"A52 4G":130,"A52 5G":130,"A53 5G":135,
+  "A54":140,"A55":145,"A56":155,"A60":220,"A70":135,"A71":135,"A72":135,
+  "A73":135,"A80":295,"A82":295,"A90":295,
+  // SAMSUNG A WF
+  "A02 WF":125,"A02S WF":125,"A3core WF":140,"A03Core WF":125,"A03 WF":125,
+  "A03S WF":125,"A04 WF":130,"A04S WF":130,"A04E WF":125,"A05 WF":130,
+  "A05S WF":155,"A06 WF":135,"A07 WF":170,"A10 WF":120,"A10S WF":125,
+  "A11 WF":130,"A12 WF":125,"A13 4G WF":125,"A13 5G WF":145,"A14 5G WF":135,
+  "A15 WF":140,"A16 4G WF":155,"A16 5G WF":165,"A17 4G WF":270,"A17 5G WF":280,
+  "A20 WF":100,"A21S WF":110,"A22 4G WF":125,"A22 5G WF":135,"A23 4G WF":150,
+  "A23 5G WF":150,"A24 WF":140,"A25 WF":140,"A26 WF":180,"A30 WF":112,
+  "A50 WF":112,"A30S WF":100,"A31 WF":115,"A32 4G WF":118,"A32 5G WF":135,
+  "A33 5G WF":170,"A34 WF":175,"A35 WF":195,"A36 WF":220,"A51 WF":125,
+  "A52 4G WF":175,"A52 5G WF":175,"A53 5G WF":180,"A54 WF":185,"A55 WF":270,
+  "A56 WF":270,"A70 WF":140,"A71 WF":145,"A72 WF":190,"A73 WF":180,
+  // SAMSUNG S WF COPY
+  "S4 WF":250,"S8 WF":400,"S8+ WF":420,"S9 WF":430,"S9+ WF":440,"S10 WF":420,
+  "S10+ WF":450,"S10E WF":810,"S20 WF":520,"S20+ WF":530,"S20FE WF":300,
+  "S20Ultara WF":560,"S21 WF":550,"S21+ WF":560,"S21FE WF":450,"S21Ultara WF":650,
+  "S22 WF":580,"S22+ WF":540,"S22 Ultara WF":650,"S23 WF":680,"S23FE WF":450,
+  "S23 Ultara WF":700,
+  // SAMSUNG S COPY
+  "S4":250,"S5":150,"S7":365,"S20FE":270,
+  // SAMSUNG NOTE
+  "Note 10Lite":230,
+  // SAMSUNG NOTE WF
+  "Note 8 WF":550,"Note 9 WF Big Size":550,"Note 10 WF":580,"Note 10+ WF":630,
+  "Note 20 WF":650,"Note 20Ultara WF":670,
+  // SAMSUNG M WF
+  "M12 WF":140,"M14 WF":160,"M15 WF":160,"M20 WF":140,"M30 WF":150,
+  "M30S WF":160,"M31 WF":150,"M31S WF":160,"M32 WF":160,"M33 WF":155,
+  "M34 WF":170,"M52 WF":180,
+  // SAMSUNG J
+  "J110":82,"J120":90,"J2":85,"J250":85,"J260":85,"J3":85,"J320":85,
+  "J330":95,"J4":85,"J4+":78,"J6+":78,"J5":85,"J5Prime":85,"J5Pro":95,
+  "J6":90,"J7":85,"J701":95,"J710":100,"J720":90,"J7Pro":100,"J7Prime":85,
+  "J8":95,"J810":95,
+  // IPHONE
+  "iPhone 5G":95,"iPhone 5S":95,"iPhone 5SE":95,"iPhone 6G":88,"iPhone 6S":90,
+  "iPhone 6+":100,"iPhone 6S+":100,"iPhone 7G":90,"iPhone 7+":100,"iPhone 8G":90,
+  "iPhone 8SE":120,"iPhone 8+":100,"SE 2020":120,"iPhone X":128,"iPhone XR":130,
+  "iPhone XS":130,"iPhone XSMax":170,"iPhone 11":135,"iPhone 11 Pro":170,
+  "iPhone 11Pro Maxx":180,"iPhone 12":170,"iPhone 12Pro":170,"iPhone 12Mini":220,
+  "iPhone 12Pro Max":200,"iPhone 13":210,"iPhone 13mini":250,"iPhone 13Pro":280,
+  "iPhone 13Pro Max":300,"iPhone 14":240,"iPhone 14+":250,"iPhone 14Pro":320,
+  "iPhone 14Pro Max":330,"iPhone 15":330,"iPhone 15Pro":340,"iPhone 15Pro Max":390,
+  "iPhone 16":550,"iPhone 16+":480,"iPhone 16Pro":850,"iPhone 16Pro Max":1600,
+  "iPhone 17":1950,"iPhone 17Pro":2950,"iPhone 17Pro Max":3150,
+  // HUAWEI P
+  "P smart":95,"P Smart S":120,"P Smart 2019":95,"P Smart 2021":95,
+  "P8":130,"P8Lite":90,"P8Lite 2017":90,"P9":115,"P9+ WF":410,"P9Lite":105,
+  "P10":150,"P10+":185,"P10Lite":108,"P20":240,"P20Pro":175,"P20Lite":100,
+  "P30":145,"P30Lite":95,"P30Pro":290,"P40":320,"P40Lite":100,"P40Lite 5G":145,
+  "P40Pro Copy":500,
+  // HUAWEI Y
+  "Y3 2017":100,"Y3 2018":90,"Y5 2017":115,"Y5 2018":78,"Y5 2019":90,
+  "Y5 2019 (4.4)":140,"Y5P 2020":95,"Y6":105,"Y6Pro":100,"Y6 2018":90,
+  "Y6 2019":90,"Y6P 2020":95,"Y7 2017":115,"Y7Pro 2017":140,"Y7P 2017":140,
+  "Y7 2018":88,"Y7 2019":95,"Y7P 2020":99,"Y8S":140,"Y8P":120,"Y9S":140,
+  "Y9 2018":102,"Y9 2019":110,"Y9P 2019":100,
+  // HUAWEI G
+  "G7":115,"G8":120,"GR5":115,
+  // HONOR
+  "X5":115,"X5+":100,"X5Pro+":135,"5A":100,"5X":110,"X5B":110,"X5B+":110,
+  "X5C":155,"X5C+":160,"X6":105,"6X":105,"X6A":100,"X6B":110,"X6C":155,
+  "7A":120,"X7":110,"7X":110,"X7A":115,"X7B":130,"X7C":120,"X7D":150,
+  "X8":125,"8X":120,"X8A":130,"X8B":310,"X8C":320,"X9":145,"9X":120,
+  "X9B COPY":350,"X9C":360,"Honor 9Lite":115,"Honor 10":175,"Honor 10Lite":125,
+  "Honor 90":330,"Honor 90Lite":125,"Honor 200":345,"Honor 200Pro":620,
+  // HUAWEI NOVA
+  "Nova":115,"Nova +":130,"Nova 2":130,"Nova 2S":135,"Nova 2+":120,"Nova 3i":120,
+  "Nova 5":185,"Nova 5T":125,"Nova 7i":230,"Nova 8i":115,"Nova 9SE":120,
+  "Nova 11i":120,"Nova 12i":135,"Nova 13i":140,"Nova Y60":95,"Nova Y61":115,
+  "Nova Y62":115,"Nova Y63":115,"Nova Y70":102,"Nova Y70+":102,"Nova Y72":115,
+  "Nova Y72S":115,"Nova Y73":130,"Nova Y90":130,"Nova Y91 Ori":270,
+  "Nova 10SE":350,"Nova 11":550,"Nova 9SE/11i":120,"Nova Y9A":100,"Nova 10":530,
+  // HUAWEI MATE
+  "Mate S":240,"Mate 7":165,"Mate 8":180,"Mate 9":165,"Mate 10":230,
+  "Mate 10Pro":165,"Mate 10Lite":110,"Mate 20":180,"Mate 20Pro":230,
+  "Mate 20Lite":120,"Mate 30":210,"Mate 30Lite":310,"Mate 40Pro":530,
+  // HUAWEI PURA
+  "Pura 70":1100,
+  // NOKIA
+  "Nk 2.1":115,"Nk 2.2":120,"Nk 2.3":115,"Nk 2.4":120,"NK 3":135,"NK 3.1":115,
+  "Nk 3.2":115,"Nk 3.4":120,"Nk 4.2":135,"NK 5":115,"Nk 5.1":120,"Nk 5.1+":125,
+  "Nk 5.2":130,"Nk 5.3":115,"Nk 5.4":125,"Nk 6":125,"Nk 6.1":125,"Nk 6.2":120,
+  "Nk 7+":130,"Nk 7.1":155,"Nk 7.2":140,"Nk 8":180,"NK G10":105,"NK G20":105,
+  "NK G21":110,"NK G22":120,"NK C1":90,"C1 2nd":110,"C2":100,"C2 2nd":115,
+  "C02":115,"Nk C10":93,"Nk C20":95,"Nk C12":120,"Nk C21":110,"NK C21+":115,
+  "Nk C22":115,"Nk C30":120,"Nk C31":125,"Nk C32":115,"HMD Key TA-1060":200,
+  "NK 1":115,"NK 1+":105,"Nk 1.3":115,"Nk 1.4":115,"Nk 2":120,
+  // LG
+  "LG K40":160,"LG K41":170,"LG K41S":150,"LG K42":150,"LG K51":165,
+  "LG K51S":150,"LG K61":165,"LG K61S":155,"LG Q6":190,"LG Q6 WF Ori":205,
+  "LG Q60":160,"LG Q61":160,"LG G5":110,"LG G6":550,"LG G7":230,"LG G8X":460,
+  "LG W30":200,
+  // SONY
+  "Sony XZ":300,
+  // HISENSE
+  "F10":160,"F17":270,"F20":170,"F22":165,"F23":175,"F24":180,"F27":200,
+  "F31":215,"F35":210,"F35Pro":155,"E5Lite":180,"E6":210,"E7":250,"E8":200,
+  "E9":200,"E9 Hisense":230,"E30":110,"E30Lite":105,"E30S":120,"E30SE":115,
+  "E31Lite":103,"E50Lite":103,"E32Pro":125,"E32Lite":103,"E60Lite":103,
+  "E33":125,"E34":130,"E35":170,"E40":130,"E40Lite":120,"E50":140,"E60":170,
+  "E70":130,"E70Pro":145,"E71":145,"E72":165,"H11":180,"H12":200,"H30":165,
+  "H30Lite":130,"H40":160,"H40Lite":140,"H40Rock":155,"H50":180,"H50S":180,
+  "H50Lite":140,"H50ZoOm":150,"H60":180,"H60ZoOm":170,"H60Lite":18,
+  "H72":155,"H72Pro":160,"Y81Pro":135,"Y82Pro":155,"Y82Pro Max":160,"C90Pro":175,
+  // HISENSE T & U
+  "T1 Pro":140,"T2":140,"T2 Pro":145,"T5":190,"T5+":190,"U42Lite":145,
+  "U43":145,"U50":110,"U50Lite":165,"U53":145,"U60":130,"U60Lite":135,
+  "U61":130,"U62Pro":135,"U70":130,"U70Pro":130,"U71":130,"U71Pro":135,
+  "U967":155,"Enigma":330,
+  // MOBICEL
+  "M.iX":135,"M. iX+":165,"M. iX PRo":130,"M. RX":130,"M. RX +":160,
+  "M. RX Pro":140,"R X 17":135,"M.X1":195,"M.X6":15,"M.X7":145,"M.X9":175,
+  "F42":145,"M.F51":145,"M.F52":145,"M.R9Lite":220,"Legends":155,
+  "Legend Pro":160,"Legend Max":170,"Epic Pro":165,"Epic Max":195,"Rio SS":85,
+  "M.Q10 4G":145,"VX18":130,"VX19":130,"VX20":130,"VX20 Pro":130,"VX21":135,
+  "M.P6":165,"Px9":130,"P11":130,"P11+":155,"M.P12":145,"M.P12+":175,
+  // REDMI/MI
+  "Mi A1":100,"Mi A1+":100,"Mi A2":100,"Mi A2+":100,"Mi A3":105,"Mi A5":115,
+  "Mi Note 3":155,"Mi Note 4 4G":120,"Mi Note 4X":115,"Mi 5":120,"Mi Note 5":100,
+  "Mi 7":115,"Mi Note 7":120,"Mi Note 7Pro":115,"Mi 8":115,"Mi 8A":115,
+  "Mi Note 8":120,"Mi Note 8Pro":120,"Mi Note 8T":130,"Mi 9":110,"Mi 9A":88,
+  "Mi 9C":90,"Mi 9S":115,"Mi 9T":115,"Mi Note 9":120,"Mi Note 9S":120,
+  "Mi Note 9T":130,"Mi Note 9 Pro":110,"Mi 10 4G":135,"Mi 10 5G":135,
+  "Mi 10 4G 2022":130,"Mi 10A":90,"Mi 10C":120,"Mi Note 10 5G":130,
+  "Mi Note 10S":130,"Mi Note 10Pro":140,"Mi Note 10Pro Max":140,
+  "Mi Note 11 4G Side":140,"Mi Note 11 5G Long":140,"Mi 11T":170,
+  "Mi Note 11 5G":140,"Mi Note 11pro":140,"Mi 12":130,"Mi 12C":115,
+  "Mi Note 12":140,"Mi Note 12 Pro":140,"Mi 13":140,"Mi 13C":110,
+  "Mi Note 13 5G":150,"Mi Note 13Pro":165,"Mi 14C":110,"Mi 15C":135,
+  // VIVO
+  "Y01":100,"Y02":105,"Y02S":110,"Y03":110,"Y04":120,"Y1S":90,"Y11":100,
+  "Y12":100,"Y12S":95,"Y15":110,"Y15S":105,"Y16":105,"Y17":110,"Y17S":105,
+  "Y19":120,"Y19S":125,"Y20":90,"Y21":95,"Y21S":100,"Y22":110,"Y27":120,
+  "Y27S":130,"Y28 4G":130,"Y28 5G":125,"Y29":120,"Y30":125,"Y31 2020":120,
+  "Y33":120,"Y33S":115,"Y35 5G":130,"Y36":130,"Y36i":150,"Y51 2020":150,
+  "Y56 5G":150,"Y66 5G":120,"Y76 5G":115,"Y85":120,"Y100 4G":155,
+  "Y100 5G":145,"Y200 5G":150,"Y200E":170,"Y200Pro":200,"V21 5G":145,
+  "V25 5G":145,"V25 5G Down Cam":150,"V25E":200,"V27":145,"V27E":145,
+  "V30":200,"V30E":210,"V40":650,"X9 Vivo":190,"S1 Middle Cam":145,
+  "S1 No Cam":160,
+  // TECNO POP
+  "Pop 2":95,"Pop 2+":95,"Pop 2Lite":100,"Pop 3":105,"Pop 4":100,
+  "Pop 4Lite":120,"Pop 4Air":115,"Pop 4Pro":110,"Pop 5":105,"Pop 5Lite":95,
+  "Pop 5 pro":110,"Pop 6":115,"Pop 6 Go":110,"Pop 6 Pro":120,"Pop 7":100,
+  "Pop 7Lite":110,"Pop 7Pro":105,"Pop 8":110,"Pop 9":120,"Pop 10":130,
+  // TECNO SPARK
+  "Spark 6 2023":100,"Spark 7":95,"Spark 7Pro":110,"Spark 7P":125,
+  "Spark 8":120,"Spark 8C":100,"Spark 8P":125,"Spark 8Pro":155,
+  "Spark 9":110,"Spark 9A":145,"Spark 9C":150,"Spark 9Pro":110,
+  "Spark 10":100,"Spark 10A":115,"Spark 10C":120,"Spark 10pro":130,
+  "Spark 20":115,"Spark 20C":120,"Spark 30":135,"Spark 30C":120,"Spark 40":125,
+  "Spark Go":120,"Spark Go 2021":120,"Spark Go 2022":115,"Spark Go 2023":120,
+  "Spark Go 2024":110,"Spark 2":115,"Spark 3":115,"Spark 4":100,
+  "Spark 4Pro":115,"Spark 4Air":115,"Spark 5":110,"Spark 5 Air":110,
+  "Spark 5Pro":110,"Spark 6":125,"Spark 6 Air":110,"Spark 6Go":100,
+  "Spark 6 2021":135,"Spark 6 2022":100,
+  // TECNO CAMON
+  "Camon 11":125,"Camon 11Pro":130,"Camon 12":120,"Camon 12Air":125,
+  "Camon 12Pro":160,"Camon 15":125,"Camon 15Air":125,"Camon 15Pro":130,
+  "Camon 16":130,"Camon 16S":130,"Camon 16Pro":175,"Camon 17":125,
+  "Camon 17P":140,"Camon 17Pro":150,"Camon 18":140,"Camon 18i":135,
+  "Camon 19":140,"Camon 20":140,"Camon 30":155,"Camon 40":165,
+  // INFINIX
+  "Hot 11":130,"X663":140,"X690":145,"X693":145,"X695":145,
+  // OPPO
+  "Op A5":130,"Op A15":90,"Op A16":90,"Op A16S":90,"Op A17":115,"Op A17S":105,
+  "Op A17K":110,"Op A18":105,"Op A31":110,"Op A35":100,"Op A36":115,
+  "Op A38":105,"Op A40":110,"Op A52S":130,"Op A52 4G":120,"Op A52 5G":120,
+  "Op A53":115,"Op A53S":115,"Op A54 4G":115,"Op A54 5G":115,"Op A54S":90,
+  "Op A57 OLD":100,"Op A57":105,"Op A57S":105,"Op A57S BiG":110,"Op A58 4G":120,
+  "Op A58 5G":110,"Op A60":115,"Op A72 4G":120,"Op A72 5G":120,"Op A74 4G":130,
+  "Op A74 5G":130,"Op A76":125,"Op A77 5G":105,"Op A78 4G":125,"Op A78 5G":110,
+  "Op A79 5G":120,"Op A83 4G":115,"Op A83 5G":120,"Op A92 5G":130,
+  "Op A93 5G":140,"Op A98 5G":120,"Op C21":140,"OP F5":130,"OP F7":140,
+  "OP R7+":320,"OP R9+ WF":330,
+  // OPPO RENO
+  "Reno Z":145,"Reno 3 4G":130,"Reno 5 5G":130,"Reno 6 5G":135,"Reno 7 5G":130,
+  "Reno 7Z 5G":12,"Reno 8 5G":135,"Reno 8Pro":160,"8Pro M/Cam":150,
+  "Reno 10 5G":175,"Reno 10Pro 5G":210,"Reno 12":200,"Reno 12Pro":210,
+  "Reno 12Pro+":220,
+  // ZTE
+  "L210":130,"Kicka 5+ 4G":155,"Kicka 6":150,"Zte A31":150,"Zte A34":130,
+  "A35 ZTE":145,"A36 ZTE":140,"Zte A51":140,"ZTE A52":140,"Zte A52Lite":150,
+  "A72 ZTE":130,"ZTE V40 Vita":160,
+  // STYLO
+  "Stylo Inkulu Pro":180,"Stylo Atlas":160,"Stylo Axis":185,"Stylo Apex 5G":170,
+  "Stylo Arex 5G":210,"Stylo Horizon":180,"Stylo Future":180,"Stylo Mavrick":160,
+  "Stylo Quantum":175,"Stylo Vertigo":155,"Stylo Solor":180,"Stylo Universe":175,
+  // MOTOROLA
+  "E13":140,"E14":145,"E15":145,"G04":145,"G13":140,"G14":140,"G15":140,
+  // VILLION
+  "V20":130,"V20SE":130,"V30 Villion":135,"V40 Villion":130,"V40S":145,
+  // REALME
+  "C11 2021":115,"Note 50":115,"Note 60":130,"Note 60x":130,"C30":125,
+  // PREMIO
+  "P.X77":155,"P.X84":165,"X95":155,"X96":160,"X97":160,
+  // HTC
+  "E5+":175,"Wildfire E6":165,"E6+":170,"E6 Star":170,"E6 WorldWire":200,
+  // SALT
+  "S60Pro":170,"A34 Salt":150,"A45":170,"A77+":150,
+  // BLACKVIEW
+  "A52 BV":170,"Black View 8\"":350,
+  // ITEL A
+  "A04 Itel":100,"A05 Itel":100,"A05S Itel":100,"A06 Itel":100,"A06S Itel":160,
+  "A18 Itel":90,"A20 Itel":160,"A25 Itel":100,"A33+ Itel":100,"A35 Itel":100,
+  "A36 Itel":105,"A37 Itel":105,"A38 Itel":130,"A48 Itel":105,"A49 Itel":100,
+  "A50 Itel":115,"A50C Itel":100,"A55 Itel":120,"A56 Itel":100,
+  "A56Lite Itel":100,"A57 Itel":110,"A58 Itel":100,"A58Lite Itel":105,
+  "A60 Itel":100,"A60S Itel":100,"A70 Itel":100,"A80 Itel":130,"A90 Itel":115,
+  // ITEL P
+  "P15":95,"P17":105,"P33":120,"P33+":105,"P36":88,"P37":100,"P37Pro":110,
+  "P38":95,"P38Pro":115,"P40 Itel":100,"P40+":130,"Itel City 100":170,
+  "Itel V54":150,"Itel TS Pro":150,"RB8S":120,"KE5":90,
+  // ITEL S
+  "S13":120,"S15":105,"S15pro":105,"S16":115,"S16Pro":115,"S17":120,"S18":120,
+  "S18Pro":110,"S23 Itel":110,"S23+ ORI":1850,"S33":140,
+  // VISION
+  "Vision 1 Pro":88,"Vision 2":115,"Vision 2 Pro":120,"Vision 2+":115,"Vision 5":120,
+  // SAMSUNG 7/8/10 INCH
+  "SM T225 8\"":190,"SM T285 8\"":180,"SM T295 8\"":180,"SM A7 10\"":350,
+  "SM A8 10.5\"":350,"SM A9 8.7\"":275,"SM A9 10\"":330,"SM A9+ 5G 10\"":380,
+  "SM T515 10\"":380,"SM S6Lite 10.4\"":570,
+  // HUAWEI TABLETS
+  "HW T1 7\"":180,"HW T2 7\"":180,"HW T3 7\"":210,"HW T3 10\"":370,
+  "Huwaie Tab 10\"":360,"HW T10S 10\"":420,
+  // LENOVO TABLETS
+  "Lenovo M7 7\"":210,"Lenovo M8 8\"":210,"Lenovo M10 10\" 2nd":350,
+  "Lenovo M10 10\" 3rd":370,"Lenovo M11 10\"":480,
+};
+
+// =====================================================================
+// PLAN DETECTION
+// =====================================================================
+function getPlan(screenCost) {
+  if (screenCost <= 150) return { plan:'basic', premium:'R25/month', label:'Basic' };
+  if (screenCost <= 300) return { plan:'standard', premium:'R75/month', label:'Standard' };
+  if (screenCost <= 500) return { plan:'premium', premium:'R150/month', label:'Premium' };
+  return null; // above 500 — not covered
+}
+
+function findPhone(query) {
+  if (!query || query.length < 2) return [];
+  const q = query.toLowerCase().replace(/\s+/g,' ').trim();
+  const results = [];
+  for (const [model, cost] of Object.entries(PHONE_DB)) {
+    if (model.toLowerCase().includes(q)) {
+      const planInfo = getPlan(cost);
+      results.push({ model, cost, planInfo });
+    }
+  }
+  return results.slice(0, 8);
+}
+
+let detectedPlan = null;
+let selectedPremium = null;
+
+function onModelType(val) {
+  const results = findPhone(val);
+  const list = document.getElementById('suggestionsList');
+  const detectResult = document.getElementById('detectResult');
+
+  if (!val || val.length < 2) {
+    list.classList.remove('open');
+    detectResult.className = 'detect-result';
+    highlightTier(null);
+    return;
+  }
+
+  if (results.length > 0) {
+    list.innerHTML = results.map(r => {
+      const planClass = r.planInfo ? `plan-${r.planInfo.plan}` : '';
+      const planLabel = r.planInfo ? r.planInfo.label : 'Not covered';
+      return `<div class="suggestion-item" onclick="selectPhone('${r.model}', ${r.cost})">
+        <span>${r.model}</span>
+        <span style="display:flex;align-items:center;gap:8px">
+          <span class="suggestion-price">R${r.cost}</span>
+          <span class="suggestion-plan ${planClass}">${planLabel}</span>
+        </span>
+      </div>`;
+    }).join('');
+    list.classList.add('open');
+  } else {
+    list.classList.remove('open');
+  }
+
+  // Exact match detection
+  const exact = results.find(r => r.model.toLowerCase() === val.toLowerCase());
+  if (exact) {
+    selectPhone(exact.model, exact.cost);
+  } else {
+    detectResult.className = 'detect-result notfound';
+    document.getElementById('detectIcon').textContent = '⚠️';
+    document.getElementById('detectText').textContent = 'Model not found in our database — please select from suggestions or contact us';
+    detectedPlan = null;
+    selectedPremium = null;
+    highlightTier(null);
+  }
+}
+
+function selectPhone(model, cost) {
+  document.getElementById('phoneModel').value = model;
+  document.getElementById('suggestionsList').classList.remove('open');
+
+  const planInfo = getPlan(cost);
+  const detectResult = document.getElementById('detectResult');
+
+  if (!planInfo) {
+    detectResult.className = 'detect-result notfound';
+    document.getElementById('detectIcon').textContent = '🚫';
+    document.getElementById('detectText').textContent = `Screen cost R${cost} — exceeds R500 limit. Contact us for a custom plan.`;
+    detectedPlan = null;
+    selectedPremium = null;
+    highlightTier(null);
+    return;
+  }
+
+  detectResult.className = 'detect-result found';
+  document.getElementById('detectIcon').textContent = '✅';
+  document.getElementById('detectText').textContent = `Screen cost R${cost} → Your plan: ${planInfo.label} (${planInfo.premium})`;
+  detectedPlan = planInfo.plan;
+  selectedPremium = planInfo.premium;
+  highlightTier(planInfo.plan);
+}
+
+function highlightTier(plan) {
+  ['basic','standard','premium'].forEach(p => {
+    document.getElementById('tier-'+p).classList.toggle('active', p === plan);
+  });
+}
+
+// =====================================================================
+// FORM LOGIC
+// =====================================================================
+let screenCondition = null;
+let paymentMethod = null;
+let photoFile = null;
+
+function selectCondition(val, btn) {
+  screenCondition = val;
+  document.querySelectorAll('.cond-btn').forEach(b => { b.className='cond-btn'; });
+  btn.classList.add(val==='good'?'good':'bad');
+  document.getElementById('err-condition').style.display='none';
+}
+
+function selectPayment(val, btn) {
+  paymentMethod = val;
+  document.querySelectorAll('.pay-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('err-payment').style.display='none';
+}
+
+function handlePhoto(input) {
+  if (input.files && input.files[0]) {
+    photoFile = input.files[0];
+    const reader = new FileReader();
+    reader.onload = e => {
+      const preview = document.getElementById('photoPreview');
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+      document.getElementById('photoUploadArea').classList.add('has-photo');
+      document.getElementById('err-photo').style.display = 'none';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function validate() {
+  let valid = true;
+  [['fullName','err-fullName'],['phone','err-phone'],['idNumber','err-idNumber'],
+   ['area','err-area'],['phoneModel','err-phoneModel']].forEach(([id,err]) => {
+    const el = document.getElementById(id);
+    const errEl = document.getElementById(err);
+    if (!el.value.trim()) { el.classList.add('error'); errEl.style.display='block'; valid=false; }
+    else { el.classList.remove('error'); errEl.style.display='none'; }
+  });
+  if (!screenCondition) { document.getElementById('err-condition').style.display='block'; valid=false; }
+  if (!photoFile) { document.getElementById('err-photo').style.display='block'; valid=false; }
+  if (!paymentMethod) { document.getElementById('err-payment').style.display='block'; valid=false; }
+  if (!document.getElementById('terms').checked) { alert('Please agree to the terms before registering.'); valid=false; }
+  return valid;
+}
+
+function getCoverDate() {
+  const d = new Date(); d.setMonth(d.getMonth()+3);
+  return d.toLocaleDateString('en-ZA',{day:'numeric',month:'long',year:'numeric'});
+}
+
+function getMemberID() { return 'BT-'+Date.now().toString(36).toUpperCase().slice(-7); }
+
+function handleSubmit() {
+  if (!validate()) return;
+  const name = document.getElementById('fullName').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const idNum = document.getElementById('idNumber').value.trim();
+  const area = document.getElementById('area').value.trim();
+  const model = document.getElementById('phoneModel').value.trim();
+  const premium = selectedPremium || 'Contact us';
+
+  document.getElementById('formCard').style.display='none';
+
+  if (screenCondition==='bad') {
+    document.getElementById('rejectedScreen').style.display='block';
+    window.scrollTo({top:0,behavior:'smooth'});
+    return;
+  }
+
+  const memberID = getMemberID();
+  const coverDate = getCoverDate();
+  const joinDate = new Date().toLocaleDateString('en-ZA',{day:'numeric',month:'long',year:'numeric'});
+
+  document.getElementById('s-name').textContent = name;
+  document.getElementById('s-phone').textContent = phone;
+  document.getElementById('s-model').textContent = model;
+  document.getElementById('s-premium').textContent = premium;
+  document.getElementById('s-memberid').textContent = memberID;
+  document.getElementById('s-coverdate').textContent = coverDate;
+  document.getElementById('s-joindate').textContent = joinDate;
+  document.getElementById('s-payment').textContent = paymentMethod;
+
+  const msg = encodeURIComponent(`Hi Brazotech! I just registered 🛡️\n\nName: ${name}\nPhone: ${phone}\nID: ${idNum}\nDevice: ${model}\nPlan: ${premium}\nArea: ${area}\nMember ID: ${memberID}\nPayment: ${paymentMethod}\n\nReady to make my first payment!`);
+  document.getElementById('whatsappLink').href = `https://wa.me/27786677069?text=${msg}`;
+
+  const EMAILJS_SERVICE_ID='YOUR_SERVICE_ID', EMAILJS_TEMPLATE_ID='YOUR_TEMPLATE_ID', EMAILJS_PUBLIC_KEY='YOUR_PUBLIC_KEY';
   emailjs.init(EMAILJS_PUBLIC_KEY);
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+    to_email:'Nicolascophy164@gmail.com', member_name:name, member_phone:phone,
+    member_id_num:idNum, phone_model:model, area, premium, plan:detectedPlan||'unknown',
+    member_id_code:memberID, payment_method:paymentMethod, join_date:joinDate, cover_date:coverDate
+  }).catch(e=>console.warn(e));
 
-  let screenCondition = null;
-  let paymentMethod   = null;
-  let phoneCategory   = null;
-  let selectedPremium = null;
-  let photoFile       = null;
+  document.getElementById('successScreen').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 
-  function selectTier(tier, price, el) {
-    document.querySelectorAll('.tier').forEach(t => t.classList.remove('active'));
-    el.classList.add('active');
+// Close suggestions when clicking outside
+document.addEventListener('click', e => {
+  if (!e.target.closest('.suggestions')) {
+    document.getElementById('suggestionsList').classList.remove('open');
   }
-
-  function selectCategory(cat, price, el) {
-    phoneCategory   = cat;
-    selectedPremium = price;
-    document.querySelectorAll('.phone-cat').forEach(b => b.classList.remove('selected'));
-    el.classList.add('selected');
-    document.getElementById('selectedTierPrice').textContent = price;
-    document.getElementById('selectedTierDisplay').classList.add('visible');
-    document.getElementById('err-category').style.display = 'none';
-
-    // Also highlight the matching tier card
-    const tierMap = { basic: 0, mid: 1, premium: 2 };
-    document.querySelectorAll('.tier').forEach((t, i) => {
-      t.classList.toggle('active', i === tierMap[cat]);
-    });
-  }
-
-  function selectCondition(val, btn) {
-    screenCondition = val;
-    document.querySelectorAll('.cond-btn').forEach(b => { b.className = 'cond-btn'; });
-    btn.classList.add(val === 'good' ? 'good' : 'bad');
-    document.getElementById('err-condition').style.display = 'none';
-  }
-
-  function selectPayment(val, btn) {
-    paymentMethod = val;
-    document.querySelectorAll('.pay-btn').forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
-    document.getElementById('err-payment').style.display = 'none';
-  }
-
-  function handlePhoto(input) {
-    if (input.files && input.files[0]) {
-      photoFile = input.files[0];
-      const reader = new FileReader();
-      reader.onload = e => {
-        const preview = document.getElementById('photoPreview');
-        preview.src = e.target.result;
-        preview.style.display = 'block';
-        document.getElementById('photoUploadArea').classList.add('has-photo');
-        document.getElementById('err-photo').style.display = 'none';
-      };
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
-
-  function validate() {
-    let valid = true;
-    const required = [
-      { id: 'fullName',   err: 'err-fullName' },
-      { id: 'phone',      err: 'err-phone' },
-      { id: 'idNumber',   err: 'err-idNumber' },
-      { id: 'area',       err: 'err-area' },
-      { id: 'phoneModel', err: 'err-phoneModel' },
-    ];
-
-    required.forEach(f => {
-      const el  = document.getElementById(f.id);
-      const err = document.getElementById(f.err);
-      if (!el.value.trim()) {
-        el.classList.add('error');
-        err.style.display = 'block';
-        valid = false;
-      } else {
-        el.classList.remove('error');
-        err.style.display = 'none';
-      }
-    });
-
-    if (!phoneCategory) {
-      document.getElementById('err-category').style.display = 'block';
-      valid = false;
-    }
-
-    if (!screenCondition) {
-      document.getElementById('err-condition').style.display = 'block';
-      valid = false;
-    }
-
-    if (!photoFile) {
-      document.getElementById('err-photo').style.display = 'block';
-      valid = false;
-    }
-
-    if (!paymentMethod) {
-      document.getElementById('err-payment').style.display = 'block';
-      valid = false;
-    }
-
-    if (!document.getElementById('terms').checked) {
-      alert('Please agree to the terms before registering.');
-      valid = false;
-    }
-
-    return valid;
-  }
-
-  function getCoverDate() {
-    const d = new Date();
-    d.setMonth(d.getMonth() + 3);
-    return d.toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' });
-  }
-
-  function getMemberID() {
-    return 'BT-' + Date.now().toString(36).toUpperCase().slice(-7);
-  }
-
-  function handleSubmit() {
-    if (!validate()) return;
-
-    const name    = document.getElementById('fullName').value.trim();
-    const phone   = document.getElementById('phone').value.trim();
-    const idNum   = document.getElementById('idNumber').value.trim();
-    const area    = document.getElementById('area').value.trim();
-    const model   = document.getElementById('phoneModel').value.trim();
-
-    document.getElementById('formCard').style.display = 'none';
-
-    if (screenCondition === 'bad') {
-      document.getElementById('rejectedScreen').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-
-    const memberID  = getMemberID();
-    const coverDate = getCoverDate();
-    const joinDate  = new Date().toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' });
-
-    document.getElementById('s-name').textContent     = name;
-    document.getElementById('s-phone').textContent    = phone;
-    document.getElementById('s-model').textContent    = model;
-    document.getElementById('s-premium').textContent  = selectedPremium;
-    document.getElementById('s-memberid').textContent = memberID;
-    document.getElementById('s-coverdate').textContent = coverDate;
-    document.getElementById('s-joindate').textContent  = joinDate;
-    document.getElementById('s-payment').textContent   = paymentMethod;
-
-    // WhatsApp message
-    const msg = encodeURIComponent(
-      `Hi Brazotech! I just registered 🛡️\n\nName: ${name}\nPhone: ${phone}\nID: ${idNum}\nDevice: ${model}\nArea: ${area}\nPlan: ${selectedPremium}\nMember ID: ${memberID}\nPayment: ${paymentMethod}\n\nReady to make my first payment!`
-    );
-    document.getElementById('whatsappLink').href = `https://wa.me/27786677069?text=${msg}`;
-
-    // Send email
-    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      to_email:       'Nicolascophy164@gmail.com',
-      member_name:    name,
-      member_phone:   phone,
-      member_id_num:  idNum,
-      phone_model:    model,
-      area:           area,
-      premium:        selectedPremium,
-      phone_category: phoneCategory,
-      member_id_code: memberID,
-      payment_method: paymentMethod,
-      join_date:      joinDate,
-      cover_date:     coverDate,
-    }).catch(err => console.warn('Email error:', err));
-
-    document.getElementById('successScreen').style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+});
 </script>
 </body>
 </html>
+
